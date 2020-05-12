@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" th:href="@{style.css}">
+    <meta charset="UTF-8">
+    <title>Add academy</title>
+</head>
+<body>
+<div id="wrapper">
+    <div th:include="header.html" ></div>
+    <div id="container">
+        <h2 class="form-heading">Add academy</h2>
+
+        <div>
+            <form action="#" class="form-add-object" th:action="@{/addAcademy}" th:object="${academy}" th:method="post">
+
+                <div class="form-group">
+                    <input class="form-control"  id="exampleFormControlInput1" type="text" placeholder="Name" th:field="*{name}">
+                </div>
+
+                <div class = "button">
+                    <button type="submit" class="btn btn-custom">Save</button>
+                </div>
+<!--                <form action="addFieldOfStudy">-->
+<!--                    <input type="submit" value="Add field of study"/>-->
+<!--                </form>-->
+            </form>
+        </div>
+
+
+
+
+
+
+
+
+    </div>
+</div>
+
+</body>
+</html>

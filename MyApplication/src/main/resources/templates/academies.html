@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css"  th:href="@{/style.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Academies</title>
+</head>
+<body>
+    <div th:include="/header.html" ></div>
+    <div id="container">
+        <h2 class="table-heading">Academies</h2>
+
+        <div id="search_top">
+            <form class="form-inline" action="#" th:action="@{/academies/search}" th:method="get">
+                <div class="form-group mx-sm-3 mb-2">
+                    <label for="searchInput" class="search-label">
+                        <svg class="bi bi-search" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 011.415 0l3.85 3.85a1 1 0 01-1.414 1.415l-3.85-3.85a1 1 0 010-1.415z" clip-rule="evenodd"/>
+                            <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM13 6.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z" clip-rule="evenodd"/>
+                        </svg>
+                    </label>
+                    <input class="form-control mb-2"  id="searchInput" type="text"   placeholder="Search" th:name="searchField">
+
+                <button type="submit" class="btn btn-primary mb-2">Search</button>
+                </div>
+            </form>
+
+
+        </div>
+
+        <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Fields of study</th>
+                    <th scope="col">Delete</th>
+                    <th scope="col">Edit</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="academy, it : ${academies}">
+                    <th scope="row" th:text="${it.index+1}"></th>
+                    <td>
+                        <span th:text="${academy.name}"></span>
+                    </td>
+                    <td>
+                        <a th:href="@{'/fieldsOfStudy/'+${academy.idAcademy}}">
+                            <svg class="bi bi-forward-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.77 12.11l4.012-2.953a.647.647 0 000-1.114L9.771 5.09a.644.644 0 00-.971.557V6.65H2v3.9h6.8v1.003c0 .505.545.808.97.557z"/>
+                            </svg>
+                        </a>
+                    </td>
+                    <td>
+
+                        <a href="" data-toggle="modal" data-target="#modal-warning" th:attr="data-target='#modal-warning'+${academy.idAcademy}">
+                            <svg class="bi bi-trash-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M2.5 1a1 1 0 00-1 1v1a1 1 0 001 1H3v9a2 2 0 002 2h6a2 2 0 002-2V4h.5a1 1 0 001-1V2a1 1 0 00-1-1H10a1 1 0 00-1-1H7a1 1 0 00-1 1H2.5zm3 4a.5.5 0 01.5.5v7a.5.5 0 01-1 0v-7a.5.5 0 01.5-.5zM8 5a.5.5 0 01.5.5v7a.5.5 0 01-1 0v-7A.5.5 0 018 5zm3 .5a.5.5 0 00-1 0v7a.5.5 0 001 0v-7z" clip-rule="evenodd"/>
+                            </svg>
+                        </a>
+
+                        <div class="modal fade in" th:id="modal-warning+${academy.idAcademy}" >
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Delete User</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h3>Are you sure you want to delete this academy?</h3>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary pull-left" data-dismiss="modal">Close</button>
+                                        <a type="button" class="btn btn-danger" th:href="@{'/academies/delete/'+${academy.idAcademy}}"><i class="fa fa-check"></i>&nbsp;Yes</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </td>
+                    <td>
+                        <a href="" data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-edit'+${academy.idAcademy}" >
+                            <svg class="bi bi-pencil-square" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15.502 1.94a.5.5 0 010 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 01.707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 00-.121.196l-.805 2.414a.25.25 0 00.316.316l2.414-.805a.5.5 0 00.196-.12l6.813-6.814z"/>
+                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 002.5 15h11a1.5 1.5 0 001.5-1.5v-6a.5.5 0 00-1 0v6a.5.5 0 01-.5.5h-11a.5.5 0 01-.5-.5v-11a.5.5 0 01.5-.5H9a.5.5 0 000-1H2.5A1.5 1.5 0 001 2.5v11z" clip-rule="evenodd"/>
+                            </svg>
+                        </a>
+
+                        <div class="modal fade in" th:id="modal-edit+${academy.idAcademy}" >
+                            <form action="#" th:action="@{'/academies/update/'+${academy.idAcademy}}" th:object="${academy}" method="POST">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Edit Academy</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <input class="form-control"  id="editAcademyName" type="text" name="name" th:placeholder="${academy.name}" th:value="${academy.name}">
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary pull-left" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-danger">Save</button>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            </div>
+    <div class="button">
+            <form action="/addAcademy" class="btn-form">
+                    <input class="btn btn-custom" type="submit" value="Add academy"/>
+            </form>
+                </div>
+
+
+    </div>
+
+
+
+</body>
+</html>
